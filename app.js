@@ -48,6 +48,15 @@ app.post('/listening', (req, res) => {
   
 });
 
+app.get('/start', (req, res) => {
+ 	
+	query();
+	res.status(200);
+	res.send('INICIOU');
+	res.end();
+	
+});
+
 
 async function query(real_cnpj) {
 
