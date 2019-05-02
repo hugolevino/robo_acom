@@ -20,7 +20,30 @@ var count_seller = 0;
 var count_row = 0;
 var im_first = 'n';
 
-query();
+const app = express();
+
+app.use(bodyParser.raw());
+app.use(bodyParser.json());
+app.use(bodyParser.text());
+
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`);
+  console.log('Press Ctrl+C to quit.');
+});
+
+
+app.get('/start2', (req, res) => {
+ 	
+	query();
+	res.status(200);
+	res.send('INICIOU');
+	res.end();
+	
+});
+
+
+
 
 async function query() {
 
