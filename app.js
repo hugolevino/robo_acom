@@ -1,3 +1,4 @@
+const {BigQuery} = require('@google-cloud/bigquery');
 const express = require('express');
 const rp = require('request-promise');
 const bodyParser = require('body-parser');
@@ -10,8 +11,7 @@ app.use(bodyParser.text());
 
 app.get('/listening', (req, res) => {
  	
-	console.log('oi');
- 	var cnpj = '1008302000179';
+ 	var cnpj = '23450889000104';
  	//var cnpj = req.body;
 
 	var options = {
@@ -19,29 +19,21 @@ app.get('/listening', (req, res) => {
 		uri: 'https://mystique-v2-americanas.b2w.io/search?sortBy=lowerPrice&source=omega&filter={"id":"variation.sellerID","value":"23450889000104","fixed":true}&limit=1',
 		resolveWithFullResponse: true,
 		headers: {
-			"content-type": "application/json",
-			"accept": "application/json",
 			'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
 			'teste': cnpj
 		},
+		json: true,
 		timeout: 30000
 	};
 	 
 	rp(options).then(function (repos) {
   
-		//var real_cnpj = repos.request.headers.teste;
-		//console.log(real_cnpj);
-		//var data = repos.body.split('window.__PRELOADED_STATE__ = "')
-		//data = data[1];
-		//data = data.split('";</script>');
-		//data = data[0]
-		//data = data.trim();
-		//data = decodeURIComponent(data);
-		//var obj = JSON.parse(data);
-		console.log('oi2');
+		var real_cnpj = repos.request.headers.teste;
+		var obj = JSON.parse(repos.body);
+
+		query(real_cnpj);
+
 		res.status(200);
-		//res.send(real_cnpj + ' --> ' + obj.pagination.total);
-		res.send(repos.body._result.total);
 		res.end();
 
 	})
@@ -52,6 +44,36 @@ app.get('/listening', (req, res) => {
 	});
   
 });
+
+
+async function query(real_cnpj) {
+
+	var cnpj_to_insert = parseInt(real_cnpj);
+	const bigqueryClient = new BigQuery();
+
+	var today = new Date();
+	var month = dateObj.getUTCMonth() + 1;
+	var day = dateObj.getUTCDate();
+	var year = dateObj.getUTCFullYear();
+	var h = today.getHours();
+	var m = today.getMinutes();
+	var s = today.getSeconds();
+
+	var date_to_insert = day + '/' + month + '/' + year;
+
+	const query = 'INSERT INTO `bigdata-bernard.my_new_dataset.data_ativacao` (cnpj, dt_ativacao) VALUES (' + cnpj_to_insert + ', "' + date_to_insert + '")';
+	const options = {
+		query: query,
+		location: 'US',
+	};
+
+	const [job] = await bigqueryClient.createQueryJob(options);
+	//console.log(`Job ${job.id} started.`);
+
+	rows = await job.getQueryResults();
+  
+}
+
 
 
 const PORT = process.env.PORT || 8080;
