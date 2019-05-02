@@ -41,7 +41,7 @@ app.get('/listening', (req, res) => {
 		console.log('oi2');
 		res.status(200);
 		//res.send(real_cnpj + ' --> ' + obj.pagination.total);
-		res.send(JSON.stringify(repos));
+		res.send(repos.body._result.total);
 		res.end();
 
 	})
