@@ -18,10 +18,18 @@ var known_list = new Array();
 var final_list = new Array();
 var count_seller = 0;
 var count_row = 0;
+var im_first = 'n';
 
 query();
 
 async function query() {
+
+	rows = '';
+	known_list = new Array();
+	final_list = new Array();
+	count_seller = 0;
+	count_row = 0;
+	im_first = 'n';
 
 	const bigqueryClient = new BigQuery();
 
@@ -86,6 +94,7 @@ function get_cats(){
 }
 
 async function queueing(){
+
 	if(count_row < final_list.length){
 		for (i = 0; i < 10; i++) {
 			if(count_row < final_list.length){
@@ -95,32 +104,33 @@ async function queueing(){
 				const request = {
 				    parent: parent,
 				    task: task,
-				 };
+				};
 
-				 //console.log('Sending task:');
-				 //console.log(task);
 				try {
 					const [response] = await client.createTask(request);
 					console.log(count_row + ' --> QUEUED');
-			    	} catch(e) {
+		    	} catch(e) {
 					return;
 					console.log(count_row + ' --> ERRO QUEUED');
-					//console.log(e);
-					// [Error: Uh oh!]
-			    	}
-				 //const [response] = await client.createTask(request);
-				 //const name = response.name;
-				 
 
+		    	}
+
+				 
 				count_row++;
 			}else{
-				query();
+				if(im_first == 'n'){
+					im_first = 's';
+					query();
+				}
 			}
 		}
 		setTimeout(function(){
 			 queueing();
 		}, 5000);
 	}else{
-		query();
+		if(im_first == 'n'){
+			im_first = 's';
+			query();
+		}
 	}
 }
