@@ -32,11 +32,11 @@ app.get('/listening', (req, res) => {
 		var real_cnpj = repos.request.headers.teste;
 		//var obj = JSON.parse(repos.body);
 
-		console.log(repos.body._result.total);
-		//query(real_cnpj);
+		//console.log(repos.body._result.total);
+		query(real_cnpj);
 
 		res.status(200);
-		res.send(real_cnpj + ' --> ' + obj._result.total);
+		res.send(real_cnpj + ' --> ' + repos.body._result.total);
 		res.end();
 
 	})
