@@ -121,8 +121,6 @@ var count_seller = 0;
 var count_row = 0;
 var im_first = 'n';
 
-query();
-
 async function query() {
 
 	rows = '';
