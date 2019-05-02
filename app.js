@@ -17,7 +17,7 @@ app.get('/listening', (req, res) => {
 
 	var options = {
 		method: 'GET',
-		uri: 'https://www.americanas.com.br/lojista/' + cnpj,
+		uri: 'http://www.precisaousinagem.ind.br/principal/empresa',
 		resolveWithFullResponse: true,
 		headers: {
 			'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
@@ -30,18 +30,19 @@ app.get('/listening', (req, res) => {
 	 
 	rp(options).then(function (repos) {
   
-		var real_cnpj = repos.request.headers.teste;
-		console.log(real_cnpj);
-		var data = repos.body.split('window.__PRELOADED_STATE__ = "')
-		data = data[1];
-		data = data.split('";</script>');
-		data = data[0]
-		data = data.trim();
-		data = decodeURIComponent(data);
-		var obj = JSON.parse(data);
+		//var real_cnpj = repos.request.headers.teste;
+		//console.log(real_cnpj);
+		//var data = repos.body.split('window.__PRELOADED_STATE__ = "')
+		//data = data[1];
+		//data = data.split('";</script>');
+		//data = data[0]
+		//data = data.trim();
+		//data = decodeURIComponent(data);
+		//var obj = JSON.parse(data);
 
 		res.status(200);
-		res.send(real_cnpj + ' --> ' + obj.pagination.total);
+		//res.send(real_cnpj + ' --> ' + obj.pagination.total);
+		res.send(repos.body);
 		res.end();
 
 	})
