@@ -3,6 +3,7 @@ const {BigQuery} = require('@google-cloud/bigquery');
 const cloudTasks = require('@google-cloud/tasks');
 const client = new cloudTasks.CloudTasksClient();
 const parent = client.queuePath('bigdata-bernard', 'us-central1', 'first-queue');
+const bodyParser = require('body-parser');
 
 const task = {
 	appEngineHttpRequest: {
