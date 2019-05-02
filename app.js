@@ -16,7 +16,7 @@ app.get('/listening', (req, res) => {
 
 	var options = {
 		method: 'GET',
-		uri: 'http://www.precisaousinagem.ind.br/principal/empresa',
+		uri: 'https://www.americanas.com.br/lojista/1008302000179',
 		resolveWithFullResponse: true,
 		headers: {
 			"content-type": "application/json",
