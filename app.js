@@ -10,6 +10,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.text());
 
 app.get('/listening', (req, res) => {
+	
+	console.log('oi');
  	
  	var cnpj = '1008302000179';
  	//var cnpj = req.body;
