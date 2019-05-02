@@ -65,7 +65,9 @@ function get_cats(){
 			cnpj_to_int = repos.body.itens[i].id;
 			if (known_list.indexOf(parseInt(cnpj_to_int)) == -1) {
 				if (final_list.indexOf(parseInt(cnpj_to_int)) == -1) {
-					final_list.push(parseInt(cnpj_to_int));
+					var teste = parseInt(cnpj_to_int);
+					var teste = teste.toString();
+					final_list.push(teste);
 					count_seller++;
 					console.log(count_seller + ' -> ' + cnpj_to_int);
 				}
@@ -88,7 +90,7 @@ async function queueing(){
 		for (i = 0; i < 10; i++) {
 			if(count_row < final_list.length){
 				
-				var payload = final_list[count_row].toString();
+				var payload = final_list[count_row];
 				task.appEngineHttpRequest.body = Buffer.from(payload).toString('base64');
 				const request = {
 				    parent: parent,
