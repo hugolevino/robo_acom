@@ -55,9 +55,9 @@ async function query(real_cnpj) {
 	const bigqueryClient = new BigQuery();
 
 	var today = new Date();
-	var month = dateObj.getUTCMonth() + 1;
-	var day = dateObj.getUTCDate();
-	var year = dateObj.getUTCFullYear();
+	var month = today.getUTCMonth() + 1;
+	var day = today.getUTCDate();
+	var year = today.getUTCFullYear();
 	var h = today.getHours();
 	var m = today.getMinutes();
 	var s = today.getSeconds();
