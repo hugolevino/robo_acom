@@ -120,8 +120,10 @@ async function queueing(){
 			}else{
 				if(im_first == 'n'){
 					im_first = 's';
-					query();
-				}
+					setTimeout(function(){
+						query();
+					}, 15000);
+				}	
 			}
 		}
 		setTimeout(function(){
@@ -130,7 +132,9 @@ async function queueing(){
 	}else{
 		if(im_first == 'n'){
 			im_first = 's';
-			query();
+			setTimeout(function(){
+				query();
+			}, 15000);
 		}
 	}
 }
