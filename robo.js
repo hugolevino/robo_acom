@@ -1,3 +1,4 @@
+const express = require('express');
 const {BigQuery} = require('@google-cloud/bigquery');
 const cloudTasks = require('@google-cloud/tasks');
 const client = new cloudTasks.CloudTasksClient();
@@ -20,8 +21,6 @@ var final_list = new Array();
 var count_seller = 0;
 var count_row = 0;
 var im_first = 'n';
-
-const app = express();
 
 app.use(bodyParser.raw());
 app.use(bodyParser.json());
