@@ -16,7 +16,7 @@ app.get('/listening', (req, res) => {
 
 	var options = {
 		method: 'GET',
-		uri: 'https://turbo-v1-americanas.b2w.io/slug/url/lojista/b2w?ordenacao=lowerPrice',
+		uri: 'https://mystique-v2-americanas.b2w.io/search?sortBy=lowerPrice&source=omega&filter={"id":"variation.sellerID","value":"23450889000104","fixed":true}&limit=1',
 		resolveWithFullResponse: true,
 		headers: {
 			"content-type": "application/json",
