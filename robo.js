@@ -1,19 +1,23 @@
 const {BigQuery} = require('@google-cloud/bigquery');
+const cloudTasks = require('@google-cloud/tasks');
+const client = new cloudTasks.CloudTasksClient();
+const parent = client.queuePath('bigdata-bernard', 'us-central1', 'first-queue');
+
+const task = {
+	appEngineHttpRequest: {
+    	httpMethod: 'POST',
+    	relativeUri: '/listening',
+	},
+};
+
 var rp = require('request-promise');
 var fs = require('fs');
-
-//const projectId = 'bigdata-bernard';
-//const file = 'C:/Users/hugo.levino/Desktop/BigData Bernard-0d44db49e583.json'
-
-//const bigqueryClient = new BigQuery({
-//	projectId: projectId,
-//	keyFilename: file
-//});
-
 
 var rows = '';
 var known_list = new Array();
 var final_list = new Array();
+var count_seller = 0;
+var count_row = 0;
 
 query();
 
@@ -23,8 +27,8 @@ async function query() {
 
 	const query = `SELECT cnpj FROM \`bigdata-bernard.my_new_dataset.data_ativacao\``;
 	const options = {
-	query: query,
-	location: 'US',
+		query: query,
+		location: 'US',
 	};
 
 	const [job] = await bigqueryClient.createQueryJob(options);
@@ -40,100 +44,69 @@ async function query() {
   
 }
 
-var sellers = new Array();
-var jsons = new Array();
-var cats = new Array();
-var offset_count = 0;
-var count_prod = 0;
-var count_cat = 0;
-var count_worker = 0;
-var count_loja = 0;
-var count_pag = 0;
-var count_seller = 0;
-var cnpj_to_int = 0;
-
-var site_data = ''
-var letras = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'z', 'w', 'y', '0'];
-var count_letras = 0;
-
 
 function get_cats(){
 	
-	if(count_letras < letras.length){
-	
-		var options = {
-			method: 'GET',
-			resolveWithFullResponse: true,
-			uri: 'https://www.americanas.com.br/mapa-do-site/lojista/f/letra-' + letras[count_letras]  + '/pagina-' + count_pag,
-			headers: {
-				'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'
-			},
-			rejectUnauthorized: false
-		};
+	var options = {
+		method: 'GET',
+		resolveWithFullResponse: true,
+		uri: 'https://turbo-v1-americanas.b2w.io/slug/sitemap/seller?limit=100000',
+		headers: {
+			"content-type": "application/json",
+			"accept": "application/json",
+		},
+		json: true
+	};
 
-		console.log(options.uri);
+	rp(options).then(function (repos) {
 		
-		rp(options).then(function (repos) {
-			
-			site_data = repos.body;
 
-			var real_prod_id = repos.request.headers.teste;
-
-			var data = repos.body.split('window.__PRELOADED_STATE__ = "')
-			
-			if(data.length > 1){
-
-				data = data[1];
-				data = data.split('";</script>');
-				data = data[0]
-				data = data.trim();
-				data = decodeURIComponent(data);
-				var obj = JSON.parse(data);
-
-				var letra = letras[count_letras];
-				
-				if(obj.sitemap.items.seller[letra].length > 0){
-					for (i = 0; i < obj.sitemap.items.seller[letra].length; i++) {
-						cnpj_to_int = obj.sitemap.items.seller[letra][i].id;
-						if (known_list.indexOf(parseInt(cnpj_to_int)) == -1) {
-							if (final_list.indexOf(parseInt(cnpj_to_int)) == -1) {
-								final_list.push(parseInt(cnpj_to_int));
-								count_seller++;
-								console.log(count_seller + ' -> ' + cnpj_to_int);
-							}
-						}
-					}
-
-					count_pag++;
-					setTimeout(function(){
-						get_cats();
-					}, 100);
-				}else{
-					count_pag = 0;
-					count_letras++;
-
-					setTimeout(function(){
-						get_cats();
-					}, 100);
-					
+		for (i = 0; i < repos.body.itens.length; i++) {
+			cnpj_to_int = repos.body.itens[i].id;
+			if (known_list.indexOf(parseInt(cnpj_to_int)) == -1) {
+				if (final_list.indexOf(parseInt(cnpj_to_int)) == -1) {
+					final_list.push(parseInt(cnpj_to_int));
+					count_seller++;
+					console.log(count_seller + ' -> ' + cnpj_to_int);
 				}
-			}else{
-				setTimeout(function(){
-					get_cats();
-				}, 100);
 			}
+		}
 
-		})
-		.catch(function (err) {
-			
-			console.log(err);
+		queueing();
 
-		});
+	})
+	.catch(function (err) {
+		
+		console.log(err);
+
+	});
 	
-	}else{
-		
-		console.log('ACABOU!');
-		
-	}
+}
 
+async function queueing(){
+	if(count_row < final_list.length){
+		for (i = 0; i < 10; i++) {
+			if(count_row < final_list.length){
+				
+				var payload = final_list[count_row];
+				task.appEngineHttpRequest.body = Buffer.from(payload).toString('base64');
+				const request = {
+				    parent: parent,
+				    task: task,
+				 };
+
+				 //console.log('Sending task:');
+				 //console.log(task);
+
+				 const [response] = await client.createTask(request);
+				 const name = response.name;
+				 console.log(`Created task ${name}`);
+
+				count_row++;
+			}
+		}
+		setTimeout(function(){
+			 testing();
+		}, 5000);
+	}
 }
