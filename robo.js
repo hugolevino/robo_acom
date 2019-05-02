@@ -27,13 +27,6 @@ app.use(bodyParser.raw());
 app.use(bodyParser.json());
 app.use(bodyParser.text());
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
-  console.log('Press Ctrl+C to quit.');
-});
-
-
 app.get('/start2', (req, res) => {
  	
 	query();
@@ -42,6 +35,16 @@ app.get('/start2', (req, res) => {
 	res.end();
 	
 });
+
+
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`);
+  console.log('Press Ctrl+C to quit.');
+});
+
+
+
 
 
 
