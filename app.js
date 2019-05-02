@@ -55,16 +55,17 @@ async function query(real_cnpj) {
 	const bigqueryClient = new BigQuery();
 
 	var today = new Date();
-	var month = today.getUTCMonth() + 1;
-	var day = today.getUTCDate();
-	var year = today.getUTCFullYear();
-	var h = today.getHours();
-	var m = today.getMinutes();
-	var s = today.getSeconds();
+	var today = today.toISOString();
+	//var month = today.getUTCMonth() + 1;
+	//var day = today.getUTCDate();
+	//var year = today.getUTCFullYear();
+	//var h = today.getHours();
+	//var m = today.getMinutes();
+	//var s = today.getSeconds();
 
-	var date_to_insert = day + '/' + month + '/' + year;
+	//var date_to_insert = day + '/' + month + '/' + year + ' ' + h + ':' + m + ':' + s;
 
-	const query = 'INSERT INTO `bigdata-bernard.my_new_dataset.data_ativacao` (cnpj, dt_ativacao) VALUES (' + cnpj_to_insert + ', "' + date_to_insert + '")';
+	const query = 'INSERT INTO `bigdata-bernard.my_new_dataset.data_ativacao` (cnpj, dt_ativacao) VALUES (' + cnpj_to_insert + ', "' + today + '")';
 	const options = {
 		query: query,
 		location: 'US',
