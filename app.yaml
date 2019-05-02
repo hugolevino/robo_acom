@@ -12,8 +12,7 @@
 # limitations under the License.
 
 # [START gae_quickstart_yaml]
-runtime: nodejs10
-env: flex
+runtime: nodejs
 automatic_scaling:
   max_num_instances: 1
 # [END gae_quickstart_yaml]
