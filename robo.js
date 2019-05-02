@@ -99,10 +99,18 @@ async function queueing(){
 
 				 //console.log('Sending task:');
 				 //console.log(task);
-
-				 const [response] = await client.createTask(request);
-				 const name = response.name;
-				 console.log(`Created task ${name}`);
+				try {
+					const [response] = await client.createTask(request);
+					console.log(count_row + ' --> QUEUED');
+			    	} catch(e) {
+					return;
+					console.log(count_row + ' --> ERRO QUEUED');
+					//console.log(e);
+					// [Error: Uh oh!]
+			    	}
+				 //const [response] = await client.createTask(request);
+				 //const name = response.name;
+				 
 
 				count_row++;
 			}else{
