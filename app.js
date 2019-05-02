@@ -16,7 +16,7 @@ app.get('/listening', (req, res) => {
 
 	var options = {
 		method: 'GET',
-		uri: 'https://www.americanas.com.br/lojista/1008302000179',
+		uri: 'https://www.americanas.com.br/lojista/b2w',
 		resolveWithFullResponse: true,
 		headers: {
 			"content-type": "application/json",
