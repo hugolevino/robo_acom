@@ -88,7 +88,7 @@ async function queueing(){
 		for (i = 0; i < 10; i++) {
 			if(count_row < final_list.length){
 				
-				var payload = final_list[count_row];
+				var payload = final_list[count_row].toString();
 				task.appEngineHttpRequest.body = Buffer.from(payload).toString('base64');
 				const request = {
 				    parent: parent,
