@@ -39,10 +39,10 @@ app.get('/listening', (req, res) => {
 		//data = data.trim();
 		//data = decodeURIComponent(data);
 		//var obj = JSON.parse(data);
-
+		console.log('oi2');
 		res.status(200);
 		//res.send(real_cnpj + ' --> ' + obj.pagination.total);
-		res.send(repos.body);
+		res.send(JSON.stringify(repos));
 		res.end();
 
 	})
