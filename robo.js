@@ -103,10 +103,14 @@ async function queueing(){
 				 console.log(`Created task ${name}`);
 
 				count_row++;
+			}else{
+				query();
 			}
 		}
 		setTimeout(function(){
 			 testing();
 		}, 5000);
+	}else{
+		query();
 	}
 }
