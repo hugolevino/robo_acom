@@ -19,6 +19,7 @@
     "test": "npm run system-test",
     "e2e-test": "repo-tools test deploy"
   },
+ "dev": "npm run robo",
  "dependencies": {
     "@google-cloud/tasks": "^0.4.0",
     "@google-cloud/bigquery": "^3.0.0", 
