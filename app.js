@@ -10,9 +10,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.text());
 
 app.get('/listening', (req, res) => {
-	
-	console.log('oi');
  	
+	console.log('oi');
  	var cnpj = '1008302000179';
  	//var cnpj = req.body;
 
@@ -24,13 +23,14 @@ app.get('/listening', (req, res) => {
 			'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
 			"teste": cnpj
 		},
-		json: true
+		json: true,
+		timeout: 30000
 	};
 	 
 	rp(options).then(function (repos) {
   
 		var real_cnpj = repos.request.headers.teste;
-
+		console.log(real_cnpj);
 		var data = repos.body.split('window.__PRELOADED_STATE__ = "')
 		data = data[1];
 		data = data.split('";</script>');
