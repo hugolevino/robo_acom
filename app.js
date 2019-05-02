@@ -9,14 +9,14 @@ app.use(bodyParser.raw());
 app.use(bodyParser.json());
 app.use(bodyParser.text());
 
-app.get('/listening', (req, res) => {
+app.post('/listening', (req, res) => {
  	
- 	var cnpj = '23450889000104';
- 	//var cnpj = req.body;
+ 	//var cnpj = '23450889000104';
+ 	var cnpj = req.body;
 
 	var options = {
 		method: 'GET',
-		uri: 'https://mystique-v2-americanas.b2w.io/search?sortBy=lowerPrice&source=omega&filter={"id":"variation.sellerID","value":"23450889000104","fixed":true}&limit=1',
+		uri: 'https://mystique-v2-americanas.b2w.io/search?sortBy=lowerPrice&source=omega&filter={"id":"variation.sellerID","value":"' + cnpj + '","fixed":true}&limit=1',
 		resolveWithFullResponse: true,
 		headers: {
 			'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
@@ -30,10 +30,10 @@ app.get('/listening', (req, res) => {
 	rp(options).then(function (repos) {
   
 		var real_cnpj = repos.request.headers.teste;
-		//var obj = JSON.parse(repos.body);
 
-		//console.log(repos.body._result.total);
-		query(real_cnpj);
+		if(repos.body._result.total > 0){
+			query(real_cnpj);
+		}
 
 		res.status(200);
 		res.send(real_cnpj + ' --> ' + repos.body._result.total);
@@ -56,14 +56,6 @@ async function query(real_cnpj) {
 
 	var today = new Date();
 	var today = today.toISOString();
-	//var month = today.getUTCMonth() + 1;
-	//var day = today.getUTCDate();
-	//var year = today.getUTCFullYear();
-	//var h = today.getHours();
-	//var m = today.getMinutes();
-	//var s = today.getSeconds();
-
-	//var date_to_insert = day + '/' + month + '/' + year + ' ' + h + ':' + m + ':' + s;
 
 	const query = 'INSERT INTO `bigdata-bernard.my_new_dataset.data_ativacao` (cnpj, dt_ativacao) VALUES (' + cnpj_to_insert + ', "' + today + '")';
 	const options = {
@@ -72,7 +64,6 @@ async function query(real_cnpj) {
 	};
 
 	const [job] = await bigqueryClient.createQueryJob(options);
-	//console.log(`Job ${job.id} started.`);
 
 	rows = await job.getQueryResults();
   
