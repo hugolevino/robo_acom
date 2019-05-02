@@ -126,7 +126,6 @@ function get_cats(){
 		})
 		.catch(function (err) {
 			
-			save_txt2(site_data);
 			console.log(err);
 
 		});
@@ -134,7 +133,6 @@ function get_cats(){
 	}else{
 		
 		console.log('ACABOU!');
-		save_txt(jsons.join('\r\n'));
 		
 	}
 
