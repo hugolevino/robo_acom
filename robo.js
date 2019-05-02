@@ -1,4 +1,3 @@
-const express = require('express');
 const {BigQuery} = require('@google-cloud/bigquery');
 const cloudTasks = require('@google-cloud/tasks');
 const client = new cloudTasks.CloudTasksClient();
@@ -12,7 +11,6 @@ const task = {
 	},
 };
 
-const app = express();
 var rp = require('request-promise');
 var fs = require('fs');
 
@@ -23,31 +21,7 @@ var count_seller = 0;
 var count_row = 0;
 var im_first = 'n';
 
-app.use(bodyParser.raw());
-app.use(bodyParser.json());
-app.use(bodyParser.text());
-
-app.get('/start2', (req, res) => {
- 	
-	query();
-	res.status(200);
-	res.send('INICIOU');
-	res.end();
-	
-});
-
-
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
-  console.log('Press Ctrl+C to quit.');
-});
-
-
-
-
-
-
+query();
 
 async function query() {
 
