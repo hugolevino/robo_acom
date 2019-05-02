@@ -16,7 +16,7 @@ app.get('/listening', (req, res) => {
 
 	var options = {
 		method: 'GET',
-		uri: 'https://www.americanas.com.br/lojista/b2w',
+		uri: 'https://turbo-v1-americanas.b2w.io/slug/url/lojista/b2w?ordenacao=lowerPrice',
 		resolveWithFullResponse: true,
 		headers: {
 			"content-type": "application/json",
