@@ -7,6 +7,7 @@ const express = require('express');
 
 const app = express();
 
+app.enable('trust proxy');
 app.use(bodyParser.raw());
 app.use(bodyParser.json());
 app.use(bodyParser.text());
