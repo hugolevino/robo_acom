@@ -29,12 +29,12 @@ var count_seller = 0;
 var count_row = 0;
 var im_first = 'n';
 
-app.get('/start', (req, res) => {
+app.get('/start2', (req, res) => {
  	
-    query();
-		res.status(200);
-	  res.send('INICIOU');
-	  res.end();
+	query();
+	res.status(200);
+	res.send('INICIOU');
+	res.end();
 
 });
 
