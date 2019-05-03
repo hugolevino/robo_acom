@@ -12,9 +12,9 @@
 # limitations under the License.
 
 # [START gae_quickstart_yaml]
-env: flex
 service: app
 runtime: nodejs10
+env: flex
 basic_scaling:
   max_instances: 1
 # [END gae_quickstart_yaml]
