@@ -13,7 +13,7 @@
 
 # [START gae_quickstart_yaml]
 service: app
-runtime: nodejs10
+runtime: nodejs
 env: flex
 basic_scaling:
   max_instances: 1
