@@ -14,8 +14,4 @@
 # [START gae_quickstart_yaml]
 service: robo
 runtime: nodejs10
-
-handlers:
-  - url: /start2
-    script: robo.js
 # [END gae_quickstart_yaml]
