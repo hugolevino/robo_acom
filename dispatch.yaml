@@ -1,9 +1,1 @@
 dispatch:
-  - url: "*/start2"
-    service: robo
-
-  - url: "*/start"
-    service: app
-    
-  - url: "*/listening"
-    service: app
