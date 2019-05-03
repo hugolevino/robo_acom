@@ -3,6 +3,13 @@ const cloudTasks = require('@google-cloud/tasks');
 const client = new cloudTasks.CloudTasksClient();
 const parent = client.queuePath('bigdata-bernard', 'us-central1', 'first-queue');
 const bodyParser = require('body-parser');
+const express = require('express');
+
+const app = express();
+
+app.use(bodyParser.raw());
+app.use(bodyParser.json());
+app.use(bodyParser.text());
 
 const task = {
 	appEngineHttpRequest: {
@@ -21,7 +28,14 @@ var count_seller = 0;
 var count_row = 0;
 var im_first = 'n';
 
-query();
+app.get('/start', (req, res) => {
+ 	
+    query();
+		res.status(200);
+	  res.send('INICIOU');
+	  res.end();
+
+});
 
 async function query() {
 
@@ -139,3 +153,9 @@ async function queueing(){
 		}
 	}
 }
+
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`);
+  console.log('Press Ctrl+C to quit.');
+});
