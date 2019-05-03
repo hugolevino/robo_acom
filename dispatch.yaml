@@ -1,0 +1,9 @@
+dispatch:
+  - url: "https://robo-dot-bigdata-bernard.appspot.com/start2"
+    service: robo
+
+  - url: "app-dot-bigdata-bernard.appspot.com/start"
+    service: app
+    
+  - url: "app-dot-bigdata-bernard.appspot.com/listening"
+    service: app
