@@ -12,6 +12,7 @@
 # limitations under the License.
 
 # [START gae_quickstart_yaml]
+env: flex
 service: app
 runtime: nodejs10
 basic_scaling:
