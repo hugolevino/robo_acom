@@ -1,9 +1,9 @@
 dispatch:
-  - url: "robo-dot-bigdata-bernard.appspot.com/start2"
+  - url: "*/start2"
     service: robo
 
-  - url: "app-dot-bigdata-bernard.appspot.com/start"
+  - url: "*/start"
     service: app
     
-  - url: "app-dot-bigdata-bernard.appspot.com/listening"
+  - url: "*/listening"
     service: app
