@@ -13,6 +13,5 @@
 
 # [START gae_quickstart_yaml]
 service: robo
-runtime: nodejs
-env: flex
+runtime: nodejs10
 # [END gae_quickstart_yaml]
