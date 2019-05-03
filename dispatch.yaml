@@ -1,5 +1,5 @@
 dispatch:
-  - url: "https://robo-dot-bigdata-bernard.appspot.com/start2"
+  - url: "robo-dot-bigdata-bernard.appspot.com/start2"
     service: robo
 
   - url: "app-dot-bigdata-bernard.appspot.com/start"
